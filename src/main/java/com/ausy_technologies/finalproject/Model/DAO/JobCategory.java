@@ -51,7 +51,7 @@ public class JobCategory {
         return "JobCategory{" +
                 "idJobCategory=" + idJobCategory +
                 ", name='" + name + '\'' +
-              //  ", jobEmployeeList=" + jobEmployeeList +
+                //  ", jobEmployeeList=" + jobEmployeeList +
                 '}';
     }
 }

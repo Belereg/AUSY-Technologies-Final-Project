@@ -20,32 +20,32 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @PostMapping("/saveEmployee")
-    public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee){
+    public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
         return this.employeeService.saveEmployee(employee);
     }
 
     @PostMapping("/saveEmployeeByDepartmentAndJobCategory/{departmentid}/{jobcategoryid}")
-    public ResponseEntity<Employee> saveEmployeeByDepartmentAndJobCategory(@RequestBody Employee employee, @PathVariable int departmentid, @PathVariable int jobcategoryid){
-        return this.employeeService.saveEmployeeByDepartmentAndJobCategory(employee, departmentid,jobcategoryid);
+    public ResponseEntity<Employee> saveEmployeeByDepartmentAndJobCategory(@RequestBody Employee employee, @PathVariable int departmentid, @PathVariable int jobcategoryid) {
+        return this.employeeService.saveEmployeeByDepartmentAndJobCategory(employee, departmentid, jobcategoryid);
     }
 
     @GetMapping("/getEmployeeById/{id}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable int id){
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable int id) {
         return this.employeeService.getEmployeeById(id);
     }
 
     @GetMapping("/getEmployeesByDepartmentId/{departmentId}")
-    public ResponseEntity<List<Employee>> getEmployeesByDepartmentId(@PathVariable int departmentId){
+    public ResponseEntity<List<Employee>> getEmployeesByDepartmentId(@PathVariable int departmentId) {
         return this.employeeService.getEmployeesByDepartmentId(departmentId);
     }
 
     @GetMapping("/getEmployeesByJobCategoryId/{jobCategoryId}")
-    public ResponseEntity<List<Employee>> getEmployeesByJobCategoryId(@PathVariable int jobCategoryId){
+    public ResponseEntity<List<Employee>> getEmployeesByJobCategoryId(@PathVariable int jobCategoryId) {
         return this.employeeService.getEmployeesByJobCategoryId(jobCategoryId);
     }
 
     @GetMapping("/getAllEmployees")
-    public ResponseEntity<List<Employee>> geAllEmployees(){
+    public ResponseEntity<List<Employee>> geAllEmployees() {
         return this.employeeService.getAllEmployees();
     }
 
