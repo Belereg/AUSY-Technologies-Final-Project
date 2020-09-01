@@ -33,14 +33,14 @@ public class EmployeeService {
     @Autowired
     private JobCategoryRepository jobCategoryRepository;
 
-    public ResponseEntity<Employee> saveEmployee(Employee employee) {
+    public ResponseEntity<Employee> addEmployee(Employee employee) {
         Employee employeeSaved = this.employeeRepository.save(employee);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Response", "saveEmployee");
         return ResponseEntity.status(HttpStatus.CREATED).headers(httpHeaders).body(employeeSaved);
     }
 
-    public ResponseEntity<Employee> saveEmployeeByDepartmentAndJobCategory(Employee employee, int departmentid, int jobcategoryid) {
+    public ResponseEntity<Employee> addEmployee(Employee employee, int departmentid, int jobcategoryid) {
         Department department = departmentRepository.findById(departmentid).get();
         JobCategory jobCategory = jobCategoryRepository.findById(jobcategoryid).get();
         employee.setDepartment(department);
@@ -53,7 +53,7 @@ public class EmployeeService {
 
     public ResponseEntity<Employee> getEmployeeById(int id) {
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Response", "getEmployee");
+        httpHeaders.add("Response", "getEmployeeById");
         Employee employeeSearched = null;
 
         try {
@@ -65,9 +65,9 @@ public class EmployeeService {
         return ResponseEntity.status(HttpStatus.FOUND).headers(httpHeaders).body(employeeSearched);
     }
 
-    public ResponseEntity<List<Employee>> getEmployeesByJobCategoryId(int jobCategoryId) {
+    public ResponseEntity<List<Employee>> getEmployeesByJob(int jobCategoryId) {
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Response", "getEmployeesByJobCategoryId");
+        httpHeaders.add("Response", "getEmployeesByJob");
         List<Employee> employeeList = this.employeeRepository.getEmployeesByJobCategoryId(jobCategoryId);
 
         if (employeeList == null)
@@ -75,11 +75,11 @@ public class EmployeeService {
         return ResponseEntity.status(HttpStatus.FOUND).headers(httpHeaders).body(employeeList);
     }
 
-    public ResponseEntity<List<Employee>> getEmployeesByDepartmentId(int departmentId) {
+    public ResponseEntity<List<Employee>> getEmployeesByDep(int departmentId) {
         List<Department> allDepartments = departmentRepository.findAll();
         List<Integer> departmentIds = new ArrayList<>();
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Response", "getEmployeesByDepartmentId");
+        httpHeaders.add("Response", "getEmployeesByDep");
 
         for (Department department : allDepartments) {
             departmentIds.add(department.getIdDepartment());
@@ -98,10 +98,10 @@ public class EmployeeService {
         }
     }
 
-    public ResponseEntity<List<Employee>> getAllEmployees() {
+    public ResponseEntity<List<Employee>> getAllEmployee() {
         List<Employee> allEmployees = this.employeeRepository.findAll();
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Response", "getAllEmployees");
+        httpHeaders.add("Response", "getAllEmployee");
         if (allEmployees.size() == 0) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).headers(httpHeaders).body(null);
         }

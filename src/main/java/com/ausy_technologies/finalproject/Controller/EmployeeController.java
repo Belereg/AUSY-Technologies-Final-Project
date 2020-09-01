@@ -19,14 +19,14 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    @PostMapping("/saveEmployee")
-    public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
-        return this.employeeService.saveEmployee(employee);
+    @PostMapping("/addEmployee")
+    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
+        return this.employeeService.addEmployee(employee);
     }
 
-    @PostMapping("/saveEmployeeByDepartmentAndJobCategory/{departmentid}/{jobcategoryid}")
-    public ResponseEntity<Employee> saveEmployeeByDepartmentAndJobCategory(@RequestBody Employee employee, @PathVariable int departmentid, @PathVariable int jobcategoryid) {
-        return this.employeeService.saveEmployeeByDepartmentAndJobCategory(employee, departmentid, jobcategoryid);
+    @PostMapping("/addEmployee/{departmentid}/{jobcategoryid}")
+    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee, @PathVariable int departmentid, @PathVariable int jobcategoryid) {
+        return this.employeeService.addEmployee(employee, departmentid, jobcategoryid);
     }
 
     @GetMapping("/getEmployeeById/{id}")
@@ -34,19 +34,19 @@ public class EmployeeController {
         return this.employeeService.getEmployeeById(id);
     }
 
-    @GetMapping("/getEmployeesByDepartmentId/{departmentId}")
-    public ResponseEntity<List<Employee>> getEmployeesByDepartmentId(@PathVariable int departmentId) {
-        return this.employeeService.getEmployeesByDepartmentId(departmentId);
+    @GetMapping("/getEmployeesByDep/{departmentId}")
+    public ResponseEntity<List<Employee>> getEmployeesByDep(@PathVariable int departmentId) {
+        return this.employeeService.getEmployeesByDep(departmentId);
     }
 
-    @GetMapping("/getEmployeesByJobCategoryId/{jobCategoryId}")
-    public ResponseEntity<List<Employee>> getEmployeesByJobCategoryId(@PathVariable int jobCategoryId) {
-        return this.employeeService.getEmployeesByJobCategoryId(jobCategoryId);
+    @GetMapping("/getEmployeesByJob/{jobCategoryId}")
+    public ResponseEntity<List<Employee>> getEmployeesByJob(@PathVariable int jobCategoryId) {
+        return this.employeeService.getEmployeesByJob(jobCategoryId);
     }
 
-    @GetMapping("/getAllEmployees")
-    public ResponseEntity<List<Employee>> geAllEmployees() {
-        return this.employeeService.getAllEmployees();
+    @GetMapping("/getAllEmployee")
+    public ResponseEntity<List<Employee>> getAllEmployee() {
+        return this.employeeService.getAllEmployee();
     }
 
 }
