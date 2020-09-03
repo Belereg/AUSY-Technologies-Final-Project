@@ -15,9 +15,9 @@ public class DepartmentController {
     @Autowired
     private DepartmentService departmentService;
 
-    @PostMapping("/saveDepartment")
+    @PostMapping("/addDepartment")
     public ResponseEntity<Department> saveDepartment(@RequestBody Department department){
-        return this.departmentService.saveDepartment(department);
+        return this.departmentService.addDepartment(department);
     }
 
     @GetMapping("/getDepartmentById/{id}")
@@ -30,9 +30,9 @@ public class DepartmentController {
         return this.departmentService.getAllDepartments();
     }
 
-    @DeleteMapping("/deleteDepartmentById/{id}")
-    public ResponseEntity<String> deleteDepartmentById(@PathVariable int id){
-        return this.departmentService.deleteDepartmentById(id);
+    @DeleteMapping("/deleteDepartment/{id}")
+    public ResponseEntity<String> deleteDepartment(@PathVariable int id){
+        return this.departmentService.deleteDepartment(id);
     }
 
     @PutMapping("/updateDepartmentById/{id}")

@@ -20,9 +20,9 @@ public class DepartmentService {
     @Autowired
     private DepartmentRepository departmentRepository;
 
-    public ResponseEntity<Department> saveDepartment(Department department) {
+    public ResponseEntity<Department> addDepartment(Department department) {
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Response", "saveDepartment");
+        httpHeaders.add("Response", "addDepartment");
         Department departmentAdded = null;
         if (!department.hasValidName())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(httpHeaders).body(null);
@@ -44,7 +44,7 @@ public class DepartmentService {
         return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(departmentList);
     }
 
-    public ResponseEntity<String> deleteDepartmentById(int departmentId) {
+    public ResponseEntity<String> deleteDepartment(int departmentId) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Response", "deleteDepartmentById");
 

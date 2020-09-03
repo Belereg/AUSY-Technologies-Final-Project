@@ -9,6 +9,37 @@ public class EmployeeDto {
     private String lastName;
     private int jobCategoryId;
     private int departmentId;
+    private boolean isManager;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private boolean active;
+    private String email;
+    private String telephone;
+    private Float salary;
+
+    public Float getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Float salary) {
+        this.salary = salary;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
 
     public int getIdEmployee() {
         return idEmployee;
@@ -82,8 +113,18 @@ public class EmployeeDto {
         this.active = active;
     }
 
-    private boolean isManager;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private boolean active;
+    @Override
+    public String toString() {
+        return "EmployeeDto{" +
+                "idEmployee=" + idEmployee +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", jobCategoryId=" + jobCategoryId +
+                ", departmentId=" + departmentId +
+                ", isManager=" + isManager +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", active=" + active +
+                '}';
+    }
 }

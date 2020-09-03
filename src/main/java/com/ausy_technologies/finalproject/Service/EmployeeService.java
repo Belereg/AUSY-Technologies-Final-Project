@@ -35,13 +35,6 @@ public class EmployeeService {
     @Autowired
     private JobCategoryRepository jobCategoryRepository;
 
-    //
-//    public ResponseEntity<Employee> addEmployee(Employee employee) {
-//        Employee employeeSaved = this.employeeRepository.save(employee);
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.add("Response", "saveEmployee");
-//        return ResponseEntity.status(HttpStatus.CREATED).headers(httpHeaders).body(employeeSaved);
-//    }
     public ResponseEntity<Employee> addEmployee(Employee employee, int departmentId, int jobCategoryId) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Response", "addEmployeeByDepartmentAndJob");
@@ -82,15 +75,11 @@ public class EmployeeService {
 //        return ResponseEntity.status(HttpStatus.CREATED).headers(httpHeaders).body(employeeSaved);
     }
 
-    public ResponseEntity<Employee> getEmployeeById(int id) {
+    public ResponseEntity<Employee> getEmployee(int id) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Response", "getEmployeeById");
-        Employee employeeSearched = null;
-
-        try {
-            employeeSearched = this.employeeRepository.findById(id);
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        Employee employeeSearched = this.employeeRepository.findById(id);
+        if (employeeSearched == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(httpHeaders).body(null);
         }
         return ResponseEntity.status(HttpStatus.FOUND).headers(httpHeaders).body(employeeSearched);
@@ -103,46 +92,35 @@ public class EmployeeService {
 
         if (employeeList == null)
             return ResponseEntity.status(HttpStatus.NO_CONTENT).headers(httpHeaders).body(null);
-        return ResponseEntity.status(HttpStatus.FOUND).headers(httpHeaders).body(employeeList);
+        return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(employeeList);
     }
 
-    public ResponseEntity<List<Employee>> getEmployeesByDep(int departmentId) {
-        List<Department> allDepartments = departmentRepository.findAll();
-        List<Integer> departmentIds = new ArrayList<>();
+    public ResponseEntity<List<Employee>> getEmployeesByDepartment(int departmentId) {
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Response", "getEmployeesByDep");
-
-        for (Department department : allDepartments) {
-            departmentIds.add(department.getIdDepartment());
-        }
-
-        if (!departmentIds.contains(departmentId))
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(httpHeaders).body(null);
-        else {
-            List<Employee> allEmployees = employeeRepository.findAll();
-            List<Employee> searchedEmployeeList = new ArrayList<>();
-            for (Employee employee : allEmployees)
-                if (employee.getDepartment() != null && employee.getDepartment().getIdDepartment() == departmentId)
-                    searchedEmployeeList.add(employee);
-
-            return ResponseEntity.status(HttpStatus.FOUND).headers(httpHeaders).body(searchedEmployeeList);
-        }
+        httpHeaders.add("Response", "getEmployeesByDepartment");
+        List<Employee> employeeList = this.employeeRepository.getEmployeeByDepartmentIdDepartment(departmentId);
+        if (employeeList == null)
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).headers(httpHeaders).body(null);
+        return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(employeeList);
     }
 
-    public ResponseEntity<List<Employee>> getAllEmployee() {
+    public ResponseEntity<List<Employee>> getAllEmployees() {
         List<Employee> allEmployees = this.employeeRepository.findAll();
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Response", "getAllEmployee");
+        httpHeaders.add("Response", "getAllEmployees");
 //        if (allEmployees.size() == 0) {
 //            return ResponseEntity.status(HttpStatus.NO_CONTENT).headers(httpHeaders).body(null);
 //        }
         return ResponseEntity.status(HttpStatus.FOUND).headers(httpHeaders).body(allEmployees);
     }
 
-    public ResponseEntity<Employee> updateEmployeeById(Employee employee, int employeeId, int departmentId, int jobCategoryId) {
+    public ResponseEntity<Employee> updateEmployee(Employee employee, int employeeId, int departmentId, int jobCategoryId) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Response", "updateEmployeeById");
         Employee updatedEmployee = this.employeeRepository.findById(employeeId);
+        if(updatedEmployee == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(httpHeaders).body(null);
+
         Department department = this.departmentRepository.findByIdDepartment(departmentId);
         JobCategory jobCategory = this.jobCategoryRepository.findByIdJobCategory(jobCategoryId);
 
@@ -173,15 +151,29 @@ public class EmployeeService {
         }
     }
 
-    public ResponseEntity<String> deleteEmployee(int id){
+    public ResponseEntity<String> deleteEmployee(int id) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Response", "updateEmployeeById");
         Employee employee = employeeRepository.findById(id);
-        if(employee == null){
+        if (employee == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(httpHeaders).body(null);
-        }else{
+        } else {
             this.employeeRepository.deleteById(id);
             return ResponseEntity.status(HttpStatus.FOUND).headers(httpHeaders).body("Employee with id " + id + " has been deleted");
         }
+    }
+
+    public Employee getEmployeeDtoById(int id) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Response", "getEmployeeById");
+        Employee employeeSearched = this.employeeRepository.findById(id);
+        if (employeeSearched == null) {
+
+        }
+        return employeeSearched;
+    }
+
+    public List<Employee> getAllEmployeesForDto(){
+        return employeeRepository.findAll();
     }
 }

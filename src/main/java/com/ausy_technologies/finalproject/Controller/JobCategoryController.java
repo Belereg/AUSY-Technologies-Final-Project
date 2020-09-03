@@ -17,9 +17,9 @@ public class JobCategoryController {
     @Autowired
     private JobCategoryService jobCategoryService;
 
-    @PostMapping("/saveJobCategory")
-    public ResponseEntity<JobCategory> saveJobCategory(@RequestBody JobCategory jobCategory){
-        return this.jobCategoryService.saveJobCategory(jobCategory);
+    @PostMapping("/addJobCategory")
+    public ResponseEntity<JobCategory> addJobCategory(@RequestBody JobCategory jobCategory){
+        return this.jobCategoryService.addJobCategory(jobCategory);
     }
 
     @GetMapping("/getAllJobCategories")

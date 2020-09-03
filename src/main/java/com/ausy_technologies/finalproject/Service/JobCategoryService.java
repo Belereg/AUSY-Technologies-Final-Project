@@ -20,10 +20,10 @@ public class JobCategoryService {
     @Autowired
     private JobCategoryRepository jobCategoryRepository;
 
-    public ResponseEntity<JobCategory> saveJobCategory(JobCategory jobCategory) {
+    public ResponseEntity<JobCategory> addJobCategory(JobCategory jobCategory) {
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Response", "saveJobCategory");
+        httpHeaders.add("Response", "addJobCategory");
         JobCategory jobCategoryAdded = null;
         if (!jobCategory.hasValidName())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(httpHeaders).body(null);
