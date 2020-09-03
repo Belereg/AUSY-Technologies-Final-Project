@@ -19,7 +19,7 @@ public class Department {
     private String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Employee> employeeList;
 
     public int getIdDepartment() {

@@ -31,22 +31,16 @@ public class DepartmentService {
                 departmentAdded = this.departmentRepository.save(department);
             } catch (ErrorResponse errorResponse) {
                 ErrorResponse.LogError(errorResponse);
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(httpHeaders).body(null);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(httpHeaders).body(null);
             }
             return ResponseEntity.status(HttpStatus.ACCEPTED).headers(httpHeaders).body(departmentAdded);
         }
-
     }
 
     public ResponseEntity<List<Department>> getAllDepartments() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Response", "getAllDepartments");
-        List<Department> departmentList = null;
-        try {
-            departmentList = this.departmentRepository.findAll();
-        } catch (ErrorResponse e) {
-            ErrorResponse.LogError(e);
-        }
+        List<Department> departmentList = this.departmentRepository.findAll();
         return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(departmentList);
     }
 
@@ -67,7 +61,7 @@ public class DepartmentService {
                 this.departmentRepository.deleteById(departmentId);
             } catch (ErrorResponse errorResponse) {
                 ErrorResponse.LogError(errorResponse);
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(httpHeaders).body(null);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(httpHeaders).body("There is no department with that ID.");
             }
             return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body("Department with id " + departmentId + " has been deleted");
         }
@@ -88,7 +82,7 @@ public class DepartmentService {
         } else {
             Department departmentToUpdate = null;
             try {
-                departmentToUpdate = this.departmentRepository.findById(departmentId).get();
+                departmentToUpdate = this.departmentRepository.findById(departmentId);
                 departmentToUpdate.setName(department.getName());
                 this.departmentRepository.save(departmentToUpdate);
             } catch (ErrorResponse errorResponse) {
@@ -97,5 +91,15 @@ public class DepartmentService {
             }
             return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body("Department with id " + departmentId + " has been updated");
         }
+    }
+
+    public ResponseEntity<Department> getDepartmentById(int departmentId){
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Response", "getDepartmentById");
+        Department department = departmentRepository.findById(departmentId);
+        if(department == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(httpHeaders).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(department);
     }
 }

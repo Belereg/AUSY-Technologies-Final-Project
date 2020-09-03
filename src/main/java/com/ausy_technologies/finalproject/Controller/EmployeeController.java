@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/employees")
+@RequestMapping("/employees")
 public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
-
-    @PostMapping("/addEmployee")
-    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
-        return this.employeeService.addEmployee(employee);
-    }
+//
+//    @PostMapping("/addEmployee")
+//    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
+//        return this.employeeService.addEmployee(employee);
+//    }
 
     @PostMapping("/addEmployee/{departmentid}/{jobcategoryid}")
     public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee, @PathVariable int departmentid, @PathVariable int jobcategoryid) {
@@ -49,4 +49,13 @@ public class EmployeeController {
         return this.employeeService.getAllEmployee();
     }
 
+    @PutMapping("/updateEmployeeById/{id}/{idDepartment}/{idJobCategory}")
+    public ResponseEntity<Employee> updateEmployeeById(@RequestBody Employee employee, @PathVariable int id, @PathVariable int idDepartment, @PathVariable int idJobCategory){
+        return this.employeeService.updateEmployeeById(employee,id,idDepartment,idJobCategory);
+    }
+
+    @DeleteMapping("/deleteEmployee/{id}")
+    public ResponseEntity<String> deleteEmployee(@PathVariable int id){
+        return this.employeeService.deleteEmployee(id);
+    }
 }

@@ -12,4 +12,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
     @Query("SELECT u FROM Employee u WHERE u.jobCategory.idJobCategory = ?1")
     public List<Employee> getEmployeesByJobCategoryId(int jobCategoryId);
+
+    Employee findById(int id);
 }
