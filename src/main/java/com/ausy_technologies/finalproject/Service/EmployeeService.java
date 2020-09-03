@@ -108,9 +108,6 @@ public class EmployeeService {
         List<Employee> allEmployees = this.employeeRepository.findAll();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Response", "getAllEmployees");
-//        if (allEmployees.size() == 0) {
-//            return ResponseEntity.status(HttpStatus.NO_CONTENT).headers(httpHeaders).body(null);
-//        }
         return ResponseEntity.status(HttpStatus.FOUND).headers(httpHeaders).body(allEmployees);
     }
 
@@ -118,7 +115,7 @@ public class EmployeeService {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Response", "updateEmployeeById");
         Employee updatedEmployee = this.employeeRepository.findById(employeeId);
-        if(updatedEmployee == null)
+        if (updatedEmployee == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(httpHeaders).body(null);
 
         Department department = this.departmentRepository.findByIdDepartment(departmentId);
@@ -173,7 +170,7 @@ public class EmployeeService {
         return employeeSearched;
     }
 
-    public List<Employee> getAllEmployeesForDto(){
+    public List<Employee> getAllEmployeesForDto() {
         return employeeRepository.findAll();
     }
 }

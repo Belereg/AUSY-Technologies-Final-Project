@@ -76,15 +76,15 @@ public class EmployeeController {
     }
 
     @GetMapping("/getAllEmployeesDTO")
-    public ResponseEntity<List<EmployeeDto>> getEmployeesDTO(){
+    public ResponseEntity<List<EmployeeDto>> getEmployeesDTO() {
         List<EmployeeDto> employeeDTOList = new ArrayList<>();
         List<Employee> employeeList = null;
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Resolve","getAllEmployees");
+        httpHeaders.add("Resolve", "getAllEmployees");
 
         try {
             employeeList = employeeService.getAllEmployeesForDto();
-        }catch (ErrorResponse e){
+        } catch (ErrorResponse e) {
             ErrorResponse.LogError(e);
             return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(employeeDTOList);
         }

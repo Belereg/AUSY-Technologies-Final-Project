@@ -54,6 +54,7 @@ public class JobCategory {
                 ", jobEmployeeList=" + jobEmployeeList +
                 '}';
     }
+
     public boolean hasValidName() {
         return this.name != null && !this.name.isBlank();
     }

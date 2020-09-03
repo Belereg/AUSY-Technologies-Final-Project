@@ -20,10 +20,10 @@ public class EmployeeMapper {
     @Autowired
     JobCategoryRepository jobCategoryRepository;
 
-    public EmployeeDto convertEmployeeToDto(Employee employee){
+    public EmployeeDto convertEmployeeToDto(Employee employee) {
         EmployeeDto employeeDto = new EmployeeDto();
 
-        if(employee != null) {
+        if (employee != null) {
             employeeDto.setFirstName(employee.getFirstName());
             employeeDto.setLastName(employee.getLastName());
             employeeDto.setEmail(employee.getEmail());
@@ -36,19 +36,18 @@ public class EmployeeMapper {
             employeeDto.setSalary(employee.getSalary());
             try {
                 employeeDto.setDepartmentId(employee.getDepartment().getIdDepartment());
-            }catch (NullPointerException e){
-                ErrorResponse.LogError(new ErrorResponse(e,"Null department.",206));
+            } catch (NullPointerException exception) {
+                ErrorResponse.LogError(new ErrorResponse(exception, "Department is null", 206));
                 employeeDto.setDepartmentId(0);
             }
             try {
                 employeeDto.setJobCategoryId(employee.getJobCategory().getIdJobCategory());
-            }catch (NullPointerException e){
-                ErrorResponse.LogError(new ErrorResponse(e,"Null jobcategory.",206));
+            } catch (NullPointerException exception) {
+                ErrorResponse.LogError(new ErrorResponse(exception, "JobCategory is null", 206));
                 employeeDto.setJobCategoryId(0);
             }
-        }
-        else {
-            throw new ErrorResponse("Can not convert a null to EmployeeDTO",400);
+        } else {
+            throw new ErrorResponse("Can not convert a null to EmployeeDTO", 400);
         }
         return employeeDto;
     }

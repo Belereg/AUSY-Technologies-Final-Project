@@ -93,11 +93,11 @@ public class DepartmentService {
         }
     }
 
-    public ResponseEntity<Department> getDepartmentById(int departmentId){
+    public ResponseEntity<Department> getDepartmentById(int departmentId) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Response", "getDepartmentById");
         Department department = departmentRepository.findById(departmentId);
-        if(department == null){
+        if (department == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(httpHeaders).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(department);

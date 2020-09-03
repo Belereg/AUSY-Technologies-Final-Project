@@ -18,22 +18,22 @@ public class JobCategoryController {
     private JobCategoryService jobCategoryService;
 
     @PostMapping("/addJobCategory")
-    public ResponseEntity<JobCategory> addJobCategory(@RequestBody JobCategory jobCategory){
+    public ResponseEntity<JobCategory> addJobCategory(@RequestBody JobCategory jobCategory) {
         return this.jobCategoryService.addJobCategory(jobCategory);
     }
 
     @GetMapping("/getAllJobCategories")
-    public ResponseEntity<List<JobCategory>> getAllJobCategories(){
+    public ResponseEntity<List<JobCategory>> getAllJobCategories() {
         return this.jobCategoryService.getAllJobCategories();
     }
 
     @GetMapping("/getJobCategoryById/{id}")
-    public ResponseEntity<JobCategory> getJobCategoryById(@PathVariable int id){
+    public ResponseEntity<JobCategory> getJobCategoryById(@PathVariable int id) {
         return this.jobCategoryService.getJobCategoryById(id);
     }
 
     @DeleteMapping("/deleteJobCategory/{id}")
-    public ResponseEntity<String> deleteJobCategory(@PathVariable int id){
+    public ResponseEntity<String> deleteJobCategory(@PathVariable int id) {
         return this.jobCategoryService.deleteJobCategory(id);
     }
 }

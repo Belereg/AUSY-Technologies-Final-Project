@@ -16,27 +16,27 @@ public class DepartmentController {
     private DepartmentService departmentService;
 
     @PostMapping("/addDepartment")
-    public ResponseEntity<Department> saveDepartment(@RequestBody Department department){
+    public ResponseEntity<Department> saveDepartment(@RequestBody Department department) {
         return this.departmentService.addDepartment(department);
     }
 
     @GetMapping("/getDepartmentById/{id}")
-    public ResponseEntity<Department> getDepartmentById(@PathVariable int id){
+    public ResponseEntity<Department> getDepartmentById(@PathVariable int id) {
         return this.departmentService.getDepartmentById(id);
     }
 
     @GetMapping("/getAllDepartments")
-    public ResponseEntity<List<Department>> getAllDepartments(){
+    public ResponseEntity<List<Department>> getAllDepartments() {
         return this.departmentService.getAllDepartments();
     }
 
     @DeleteMapping("/deleteDepartment/{id}")
-    public ResponseEntity<String> deleteDepartment(@PathVariable int id){
+    public ResponseEntity<String> deleteDepartment(@PathVariable int id) {
         return this.departmentService.deleteDepartment(id);
     }
 
     @PutMapping("/updateDepartmentById/{id}")
-    public ResponseEntity<String> updateDepartmentById(@RequestBody Department department, @PathVariable int id){
-        return this.departmentService.updateDepartmentById(department,id);
+    public ResponseEntity<String> updateDepartmentById(@RequestBody Department department, @PathVariable int id) {
+        return this.departmentService.updateDepartmentById(department, id);
     }
 }
