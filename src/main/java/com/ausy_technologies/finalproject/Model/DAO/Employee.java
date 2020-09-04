@@ -92,6 +92,7 @@ public class Employee {
         this.socialSecurityNumber = "socialSecurityNumber";
         this.hasDrivingLicense = false;
     }
+
     public Employee(int idEmployee, String firstName, String lastName, boolean isManager, boolean active, String address, String cp, String telephone, String email, boolean noChildren, Float salary, String studies, String socialSecurityNumber, boolean hasDrivingLicense) {
         this.idEmployee = idEmployee;
         this.firstName = firstName;

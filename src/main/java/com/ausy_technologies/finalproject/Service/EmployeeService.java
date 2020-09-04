@@ -1,5 +1,6 @@
 package com.ausy_technologies.finalproject.Service;
 
+import com.ausy_technologies.finalproject.Audit;
 import com.ausy_technologies.finalproject.Error.ErrorResponse;
 import com.ausy_technologies.finalproject.Model.DAO.Department;
 import com.ausy_technologies.finalproject.Model.DAO.Employee;
@@ -35,6 +36,31 @@ public class EmployeeService {
     @Autowired
     private JobCategoryRepository jobCategoryRepository;
 
+    Audit audit = Audit.getInstance();
+
+    public String showEmployee(Employee employee) {
+        return "\t\t\t\t{ " + '\n' +
+                "\t\t\t\t\tidEmployee=" + employee.getIdEmployee() + ",\n" +
+                "\t\t\t\t\tfirstName=" + employee.getFirstName() + ",\n" +
+                "\t\t\t\t\tlastName=" + employee.getLastName() + ",\n" +
+                "\t\t\t\t\tstartDate=" + employee.getStartDate() + ",\n" +
+                "\t\t\t\t\tendDate=" + employee.getEndDate() + ",\n" +
+                "\t\t\t\t\tactive=" + employee.isActive() + ",\n" +
+                "\t\t\t\t\taddress=" + employee.getAddress() + ",\n" +
+                "\t\t\t\t\tCP=" + employee.getCp() + ",\n" +
+                "\t\t\t\t\ttelephone=" + employee.getTelephone() + ",\n" +
+                "\t\t\t\t\temail=" + employee.getEmail() + ",\n" +
+                "\t\t\t\t\tbirthday=" + employee.getBirthday() + ",\n" +
+                "\t\t\t\t\tnoChildren=" + employee.isNoChildren() + ",\n" +
+                "\t\t\t\t\tsalary=" + employee.getSalary() + ",\n" +
+                "\t\t\t\t\tstudies=" + employee.getStudies() + ",\n" +
+                "\t\t\t\t\tsocialSecurityNumber=" + employee.getSocialSecurityNumber() + ",\n" +
+                "\t\t\t\t\thasDrivingLicense=" + employee.isHasDrivingLicense() + ",\n" +
+                "\t\t\t\t\tdepartment=" + employee.getDepartment().getIdDepartment() + ",\n" +
+                "\t\t\t\t\tjobCategory=" + employee.getJobCategory().getIdJobCategory() + ",\n" +
+                "\t\t\t\t}";
+    }
+
     public ResponseEntity<Employee> addEmployeeTest(Employee employee) {
         Employee employeeSaved = this.employeeRepository.save(employee);
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -55,6 +81,7 @@ public class EmployeeService {
             employee.setDepartment(department);
             employee.setJobCategory(jobCategory);
             Employee employeeSaved = this.employeeRepository.save(employee);
+            audit.writePersonsToFile("Employee added\n" + showEmployee(employee));
             return ResponseEntity.status(HttpStatus.CREATED).headers(httpHeaders).body(employeeSaved);
         }
     }
@@ -64,8 +91,10 @@ public class EmployeeService {
         httpHeaders.add("Response", "getEmployeeById");
         Employee employeeSearched = this.employeeRepository.findById(id);
         if (employeeSearched == null) {
+            audit.writePersonsToFile("getEmployee(" + id + ") called (UNSUCCESSFULLY)");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(httpHeaders).body(null);
         }
+        audit.writePersonsToFile("getEmployee(" + id + ") called (SUCCESSFULLY)");
         return ResponseEntity.status(HttpStatus.FOUND).headers(httpHeaders).body(employeeSearched);
     }
 
@@ -74,8 +103,12 @@ public class EmployeeService {
         httpHeaders.add("Response", "getEmployeesByJob");
         List<Employee> employeeList = this.employeeRepository.getEmployeesByJobCategoryId(jobCategoryId);
 
-        if (employeeList == null)
+        if (employeeList == null) {
+            audit.writePersonsToFile("getEmployeesByJob(" + jobCategoryId + ") called (UNSUCCESSFULLY)");
             return ResponseEntity.status(HttpStatus.NO_CONTENT).headers(httpHeaders).body(null);
+        }
+
+        audit.writePersonsToFile("getEmployeesByJob(" + jobCategoryId + ") called (SUCCESSFULLY)");
         return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(employeeList);
     }
 
@@ -83,8 +116,11 @@ public class EmployeeService {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Response", "getEmployeesByDepartment");
         List<Employee> employeeList = this.employeeRepository.getEmployeeByDepartmentIdDepartment(departmentId);
-        if (employeeList == null)
+        if (employeeList == null) {
+            audit.writePersonsToFile("getEmployeesByJob(" + departmentId + ") called (UNSUCCESSFULLY)");
             return ResponseEntity.status(HttpStatus.NO_CONTENT).headers(httpHeaders).body(null);
+        }
+        audit.writePersonsToFile("getEmployeesByJob(" + departmentId + ") called (SUCCESSFULLY)");
         return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(employeeList);
     }
 
@@ -92,6 +128,7 @@ public class EmployeeService {
         List<Employee> allEmployees = this.employeeRepository.findAll();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Response", "getAllEmployees");
+        audit.writePersonsToFile("getAllEmployees() called");
         return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(allEmployees);
     }
 
@@ -99,13 +136,17 @@ public class EmployeeService {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Response", "updateEmployeeById");
         Employee updatedEmployee = this.employeeRepository.findById(employeeId);
-        if (updatedEmployee == null)
+        if (updatedEmployee == null) {
+            audit.writePersonsToFile("updateEmployee/" + employeeId + "/" +departmentId + "/" + jobCategoryId + ") called (UNSUCCESSFULLY)");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(httpHeaders).body(null);
+        }
 
         Department department = this.departmentRepository.findByIdDepartment(departmentId);
         JobCategory jobCategory = this.jobCategoryRepository.findByIdJobCategory(jobCategoryId);
 
         if (department == null || jobCategory == null) {
+
+            audit.writePersonsToFile("updateEmployee/" + employeeId + "/" +departmentId + "/" + jobCategoryId + ") called (UNSUCCESSFULLY)");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(httpHeaders).body(null);
         } else {
             updatedEmployee.setDepartment(department);
@@ -128,6 +169,8 @@ public class EmployeeService {
             updatedEmployee.setTelephone(employee.getTelephone());
 
             employeeRepository.save(updatedEmployee);
+            audit.writePersonsToFile("updateEmployee/" + employeeId + "/" +departmentId + "/" + jobCategoryId + ") called (SUCCESSFULLY)");
+
             return ResponseEntity.status(HttpStatus.FOUND).headers(httpHeaders).body(updatedEmployee);
         }
     }
@@ -137,9 +180,12 @@ public class EmployeeService {
         httpHeaders.add("Response", "updateEmployeeById");
         Employee employee = employeeRepository.findById(id);
         if (employee == null) {
+            audit.writePersonsToFile("deleteEmployee(" + id + ") called (UNSUCCESSFULLY)");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(httpHeaders).body(null);
         } else {
             this.employeeRepository.deleteById(id);
+            audit.writePersonsToFile("deleteEmployee(" + id + ") called (SUCCESSFULLY)");
+
             return ResponseEntity.status(HttpStatus.FOUND).headers(httpHeaders).body("Employee with id " + id + " has been deleted");
         }
     }
@@ -148,9 +194,7 @@ public class EmployeeService {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Response", "getEmployeeById");
         Employee employeeSearched = this.employeeRepository.findById(id);
-        if (employeeSearched == null) {
-
-        }
+        audit.writePersonsToFile("getEmployeeDtoById(" + id + ") called (SUCCESSFULLY)");
         return employeeSearched;
     }
 
