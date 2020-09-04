@@ -1,0 +1,14 @@
+= THIS IS THE BEST Spring REST Docs Example
+
+This is an example output for a service running at http://localhost:8083:
+
+== POST API Example
+
+.request
+include::{snippets}/testAddDepartment/http-request.adoc[]
+
+.response
+include::{snippets}/testAddDepartment/http-response.adoc[]
+
+
+The data which we can see as part of documentation will loaded from MockMvc Test case data

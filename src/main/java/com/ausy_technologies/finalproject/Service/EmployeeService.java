@@ -35,6 +35,13 @@ public class EmployeeService {
     @Autowired
     private JobCategoryRepository jobCategoryRepository;
 
+    public ResponseEntity<Employee> addEmployeeTest(Employee employee) {
+        Employee employeeSaved = this.employeeRepository.save(employee);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Response", "addEmployeeTest");
+        return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(employeeSaved);
+    }
+
     public ResponseEntity<Employee> addEmployee(Employee employee, int departmentId, int jobCategoryId) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Response", "addEmployeeByDepartmentAndJob");
@@ -50,29 +57,6 @@ public class EmployeeService {
             Employee employeeSaved = this.employeeRepository.save(employee);
             return ResponseEntity.status(HttpStatus.CREATED).headers(httpHeaders).body(employeeSaved);
         }
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.add("Response", "addEmployeeByDepartmentAndJob");
-//
-//        //Department department = this.departmentRepository.findByIdDepartment(departmentId);
-//        List<Department> allDepartments = this.departmentRepository.findAll();
-//        List<Integer> allIds = new ArrayList<>();
-//        List<Department> allJobCategories = this.departmentRepository.findAll();
-//        List<Integer> allIdsJobs = new ArrayList<>();
-//        for (Department dep : allDepartments)
-//            if (dep.getIdDepartment() == departmentId)
-//                allIds.add(dep.getIdDepartment());
-//        for (Department job : allJobCategories)
-//            if (job.getIdDepartment() == departmentId)
-//                allIdsJobs.add(job.getIdDepartment());
-//        if (!allIds.contains(departmentId) || !allIdsJobs.contains(jobCategoryId)) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(httpHeaders).body(null);
-//        }
-//        Department department = departmentRepository.findById(departmentId).get();
-//        JobCategory jobCategory = jobCategoryRepository.findById(jobCategoryId).get();
-//        employee.setDepartment(department);
-//        employee.setJobCategory(jobCategory);
-//        Employee employeeSaved = this.employeeRepository.save(employee);
-//        return ResponseEntity.status(HttpStatus.CREATED).headers(httpHeaders).body(employeeSaved);
     }
 
     public ResponseEntity<Employee> getEmployee(int id) {
@@ -108,7 +92,7 @@ public class EmployeeService {
         List<Employee> allEmployees = this.employeeRepository.findAll();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Response", "getAllEmployees");
-        return ResponseEntity.status(HttpStatus.FOUND).headers(httpHeaders).body(allEmployees);
+        return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(allEmployees);
     }
 
     public ResponseEntity<Employee> updateEmployee(Employee employee, int employeeId, int departmentId, int jobCategoryId) {

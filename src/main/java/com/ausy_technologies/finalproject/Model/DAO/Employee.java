@@ -2,10 +2,11 @@ package com.ausy_technologies.finalproject.Model.DAO;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-
+//@AllArgsConstructor
 @Entity
 @Table(name = "employees")
 public class Employee {
@@ -74,6 +75,39 @@ public class Employee {
     @ManyToOne//(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_job_category")
     private JobCategory jobCategory;
+
+    public Employee(){
+        this.idEmployee = 0;
+        this.firstName = "firstName";
+        this.lastName = "lastName";
+        this.isManager = false;
+        this.active = false;
+        this.address = "address";
+        this.cp = "cp";
+        this.telephone = "telephone";
+        this.email = "email";
+        this.noChildren = false;
+        this.salary = (float)0;
+        this.studies = "studies";
+        this.socialSecurityNumber = "socialSecurityNumber";
+        this.hasDrivingLicense = false;
+    }
+    public Employee(int idEmployee, String firstName, String lastName, boolean isManager, boolean active, String address, String cp, String telephone, String email, boolean noChildren, Float salary, String studies, String socialSecurityNumber, boolean hasDrivingLicense) {
+        this.idEmployee = idEmployee;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.isManager = isManager;
+        this.active = active;
+        this.address = address;
+        this.cp = cp;
+        this.telephone = telephone;
+        this.email = email;
+        this.noChildren = noChildren;
+        this.salary = salary;
+        this.studies = studies;
+        this.socialSecurityNumber = socialSecurityNumber;
+        this.hasDrivingLicense = hasDrivingLicense;
+    }
 
     public int getIdEmployee() {
         return idEmployee;

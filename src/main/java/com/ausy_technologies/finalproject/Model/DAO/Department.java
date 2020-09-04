@@ -2,10 +2,15 @@ package com.ausy_technologies.finalproject.Model.DAO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@ToString
+@EqualsAndHashCode
 @Entity
 @Table(name = "departments")
 public class Department {
@@ -21,6 +26,11 @@ public class Department {
     @JsonIgnore
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Employee> employeeList;
+
+    public Department(int i, String departmenttest) {
+        this.idDepartment = i;
+        this.name = departmenttest;
+    }
 
     public int getIdDepartment() {
         return idDepartment;

@@ -26,6 +26,11 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
+    @PostMapping("/addEmployeeTest")
+    public ResponseEntity<Employee> addEmployeeTest(@RequestBody Employee employee) {
+            return this.employeeService.addEmployeeTest(employee);
+    }
+
     @PostMapping("/addEmployee/{departmentid}/{jobcategoryid}")
     public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee, @PathVariable int departmentid, @PathVariable int jobcategoryid) {
         return this.employeeService.addEmployee(employee, departmentid, jobcategoryid);

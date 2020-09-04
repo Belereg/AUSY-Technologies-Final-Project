@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class DepartmentService {
                 ErrorResponse.LogError(errorResponse);
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(httpHeaders).body(null);
             }
-            return ResponseEntity.status(HttpStatus.ACCEPTED).headers(httpHeaders).body(departmentAdded);
+            return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(departmentAdded);
         }
     }
 
@@ -101,5 +102,13 @@ public class DepartmentService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(httpHeaders).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(department);
+    }
+
+    public List<Department> addDepartments(@RequestBody List<Department> departments) {
+        this.departmentRepository.saveAll(departments);
+        return departments;
+    }
+    public List<Department> getDepartments(@RequestBody List<Department> departments) {
+        return departmentRepository.findAll();
     }
 }
